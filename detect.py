@@ -14,7 +14,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("./")
+ROOT_DIR = os.path.abspath("../Mask_RCNN/")
 
 from mrcnn import utils
 import mrcnn.model as modellib
@@ -81,15 +81,17 @@ def main(img_path):
 
     # Run detection
     r = predict(image)
+    for k in r.keys():
+        r[k] = r[k].tolist()
     print(r)
 
-    visualize.display_instances(
-        image,
-        r['rois'],
-        r['masks'],
-        r['class_ids'],
-        class_names,
-        r['scores'])
+#    visualize.display_instances(
+#        image,
+#        r['rois'],
+#        r['masks'],
+#        r['class_ids'],
+#        class_names,
+#        r['scores'])
 
 
 if __name__ == '__main__':
