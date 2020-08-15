@@ -6,6 +6,7 @@ tf.keras.backend.set_session(tf.Session(config=cfg))
 import argparse
 import os
 import sys
+import colorsys
 import random
 import math
 import numpy as np
@@ -81,10 +82,15 @@ def main(img_path):
 
     # Run detection
     r = predict(image)
-    for k in r.keys():
-        r[k] = r[k].tolist()
-    print(r)
+    N = r['rois'].shape[0]
 
+    for i in range(N):
+        mask = r['masks'][:, :, i]
+        masked_image = image.astype(np.uint32).copy()
+        for j in range(60):
+            masked_image = visualize.apply_mask(masked_image, mask, colorsys.hsv_to_rgb(j/60, 1, 1.0), 0.2)
+            skimage.io.imsave("output/output" + str(j) + ".bmp", masked_image.astype(np.uint8))
+        break;
 #    visualize.display_instances(
 #        image,
 #        r['rois'],
@@ -100,3 +106,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     main(args.image)
+    
+    
+    
+    
+    
