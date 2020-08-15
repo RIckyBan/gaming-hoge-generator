@@ -4,18 +4,19 @@ cfg.gpu_options.allow_growth = True
 tf.keras.backend.set_session(tf.Session(config=cfg))
 
 import argparse
-import os
-import sys
-import random
+import colorsys
 import math
 import numpy as np
+import os
+import random
+import sys
 import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
+from PIL import Image
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../Mask_RCNN/")
-
 from mrcnn import utils
 import mrcnn.model as modellib
 from mrcnn import visualize
@@ -30,7 +31,6 @@ import coco
 
 # Directory to save logs and trained model
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
-
 # Local path to trained weights file
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
@@ -81,18 +81,19 @@ def main(img_path):
 
     # Run detection
     r = predict(image)
-    for k in r.keys():
-        r[k] = r[k].tolist()
-    print(r)
+    N = r['rois'].shape[0]
 
-#    visualize.display_instances(
-#        image,
-#        r['rois'],
-#        r['masks'],
-#        r['class_ids'],
-#        class_names,
-#        r['scores'])
-
+    for i in range(N):
+        mask = r['masks'][:, :, i]
+        base_image = image.astype(np.uint32).copy()
+        masked_images = []
+        for j in range(60):
+            tmp = visualize.apply_mask(base_image, mask, colorsys.hsv_to_rgb(j/60, 1, 1.0), 0.1)
+            masked_images.append(Image.fromarray(tmp.astype('uint8')))
+            #skimage.io.imsave("output/output" + str(j) + ".bmp", masked_image.astype(np.uint8))        
+        base_image = Image.fromarray(base_image.astype('uint8'))
+        base_image.save('out.gif', save_all=True, append_images=masked_images)
+        break;
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -100,3 +101,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     main(args.image)
+    
+    
+    
+    
+    
