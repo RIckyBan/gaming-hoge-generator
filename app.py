@@ -1,5 +1,6 @@
+import colorsys
 import cv2
-from flask import Flask, request, current_app
+from flask import Flask, request, send_file
 from flask_cors import *
 import numpy as np
 from PIL import Image
@@ -82,7 +83,7 @@ model.load_weights(COCO_MODEL_PATH, by_name=True)
 def test():
     return "gaming hoge generator is running"
 
-@app.route("/segmentation", methods=["POST"])
+@app.route("/server/segmentation", methods=["POST"])
 def segmentation():
     image_file = request.files.get('image')
 
@@ -99,9 +100,23 @@ def segmentation():
         results = model.detect([image], verbose=1)
     
     r = results[0]
-    for k in r.keys():
-        r[k] = r[k].tolist()
-    return json.dumps(r)
+    N = r['rois'].shape[0]
+
+    for i in range(N):
+        mask = r['masks'][:, :, i]
+        base_image = image.astype(np.uint32).copy()
+        masked_images = []
+        for j in range(60):
+            tmp = visualize.apply_mask(base_image, mask, colorsys.hsv_to_rgb(j/60, 1, 1.0), 0.1)
+            masked_images.append(Image.fromarray(tmp.astype('uint8')))
+        base_image = Image.fromarray(base_image.astype('uint8'))
+        base_image.save('out.gif', save_all=True, append_images=masked_images)
+        break;
+
+    try:
+        return send_file('./out.gif', attachment_filename='out.gif')
+    except Exception as e:
+        return str(e)
 
 
 if __name__ == '__main__':
