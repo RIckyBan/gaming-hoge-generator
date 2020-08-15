@@ -110,7 +110,7 @@ def segmentation():
             tmp = visualize.apply_mask(base_image, mask, colorsys.hsv_to_rgb(j/60, 1, 1.0), 0.1)
             masked_images.append(Image.fromarray(tmp.astype('uint8')))
         base_image = Image.fromarray(base_image.astype('uint8'))
-        base_image.save('out.gif', save_all=True, append_images=masked_images)
+        base_image.save('out.gif', save_all=True, append_images=masked_images, loop=0)
         break;
 
     try:
