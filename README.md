@@ -27,6 +27,17 @@ wget https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_co
 ```
 
 ### For web client
+Set your ip in `nginx/conf.d/default.conf`.
+
+```
+location ~ /server {
+    proxy_pass http://<YOUR IP ADDRESS>:5000;
+    client_max_body_size 10M;
+}
+```
+
+Then,
+
 ```bash
 # To install client submodule
 git submodule update --init --recursive
