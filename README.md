@@ -9,8 +9,10 @@
 
 ```bash
 conda create -n gaming_hoge python=3.7
-conda install -c anaconda tensorflow-gpu=1.14 flask flask-cors
-conda install -c conda-forge imgaug keras=2.3.1
+source activate gaming_hoge
+conda install -c anaconda tensorflow-gpu=1.14 flask flask-cors pillow scikit-image
+conda install -c conda-forge pycocotools imgaug keras=2.3.1
+pip install opencv-contrib-python
 ```
 
 ## Installation
@@ -40,3 +42,4 @@ sudo docker run -d --name server -p 80:80 server
 ```
 nohup python3 app.py &
 ```
+

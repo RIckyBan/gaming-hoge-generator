@@ -1,3 +1,8 @@
+import tensorflow as tf
+cfg = tf.ConfigProto()
+cfg.gpu_options.allow_growth = True
+tf.keras.backend.set_session(tf.Session(config=cfg))
+
 import colorsys
 import cv2
 from flask import Flask, request, send_file
@@ -21,6 +26,7 @@ CORS(app)
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("./Mask_RCNN/")
+sys.path.append(ROOT_DIR)
 
 from Mask_RCNN.mrcnn import utils
 import Mask_RCNN.mrcnn.model as modellib
