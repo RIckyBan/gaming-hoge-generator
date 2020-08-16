@@ -18,11 +18,11 @@ app = Flask(__name__)
 CORS(app)
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../Mask_RCNN/")
+ROOT_DIR = os.path.abspath("./Mask_RCNN/")
 
-from mrcnn import utils
-import mrcnn.model as modellib
-from mrcnn import visualize
+from Mask_RCNN.mrcnn import utils
+import Mask_RCNN.mrcnn.model as modellib
+from Mask_RCNN.mrcnn import visualize
 
 # Import COCO config
 sys.path.append(
