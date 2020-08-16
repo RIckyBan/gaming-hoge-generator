@@ -1,12 +1,15 @@
 # gaming-hoge-generator
 
+## Requirements
+- Python 3.7
+- TensorFlow GPU 1.14
+- Keras 2.3.1
 
-
-## Create virtual env(conda)
+### Create virtual env (conda)
 ```bash
 conda create -n gaming_hoge python=3.7
 conda install -c anaconda tensorflow-gpu=1.14 flask flask-cors
-conda install -c conda-forge imgaug keras
+conda install -c conda-forge imgaug keras=2.3.1
 ```
 
 ## Installation
