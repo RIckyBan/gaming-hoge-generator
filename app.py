@@ -5,12 +5,14 @@ from flask_cors import *
 import numpy as np
 from PIL import Image
 import json
-import os
-import random
-import sys
 import math
 import numpy as np
+import os
+import random
+import shutil
+import sys
 import skimage.io
+import uuid
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -114,12 +116,16 @@ def segmentation():
             tmp = base_image.copy()
             tmp = visualize.apply_mask(tmp, mask, colorsys.hsv_to_rgb(j/60, 1, 1.0), 0.5)
             masked_images.append(Image.fromarray(tmp.astype('uint8')))
+        img_id = str(uuid.uuid4())
+        out_gif = img_id+'.gif'
         base_image = Image.fromarray(base_image.astype('uint8'))
-        base_image.save('out.gif', save_all=True, append_images=masked_images, loop=0)
+        base_image.save(out_gif, save_all=True, append_images=masked_images, loop=0)
+        shutil.move(out_gif, os.path.join('/tmp', out_gif))
+        out_gif = os.path.join('/tmp', out_gif)
         break;
 
     try:
-        return send_file('./out.gif', attachment_filename='out.gif')
+        return send_file(out_gif, attachment_filename='out.gif')
     except Exception as e:
         return str(e)
 
