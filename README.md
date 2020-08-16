@@ -6,6 +6,7 @@
 - Keras 2.3.1
 
 ### Create virtual env (conda)
+
 ```bash
 conda create -n gaming_hoge python=3.7
 conda install -c anaconda tensorflow-gpu=1.14 flask flask-cors
@@ -17,8 +18,6 @@ conda install -c conda-forge imgaug keras=2.3.1
 ### For MRCNN model
 
 ```bash
-cd ~/src
-git clone https://github.com/matterport/Mask_RCNN
 cd Mask_RCNN
 python3 setup.py install
 # download weights
