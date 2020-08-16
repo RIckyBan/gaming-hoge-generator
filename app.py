@@ -92,7 +92,11 @@ def segmentation():
 
     if image.shape[2] == 4:
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
-    
+
+    if max(image.shape) > 3000:
+        h, w, _ = image.shape
+        image = cv2.resize(image, (int(h/2), int(w/2)))
+
     global sess
     global graph
     with graph.as_default():
