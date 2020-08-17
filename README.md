@@ -2,6 +2,10 @@
 
 ![](demo.gif)
 
+## Slides
+
+https://docs.google.com/presentation/d/1RDkNOUKaD20xB4eddGv-fGaYhjH8RDHr65p3Q3kDadQ/edit?usp=sharing
+
 ## Requirements
 - Python 3.7
 - TensorFlow GPU 1.14
@@ -56,3 +60,5 @@ sudo docker run -d --name server -p 80:80 server
 nohup python3 app.py &
 ```
 
+Note:
+Images you share to Imgur are publicly visible to everyone. Please be careful.
