@@ -1,9 +1,7 @@
 # gaming-hoge-generator
-
 ![](demo.gif)
 
 ## Slides
-
 https://docs.google.com/presentation/d/1RDkNOUKaD20xB4eddGv-fGaYhjH8RDHr65p3Q3kDadQ/edit?usp=sharing
 
 ## Requirements
@@ -11,7 +9,26 @@ https://docs.google.com/presentation/d/1RDkNOUKaD20xB4eddGv-fGaYhjH8RDHr65p3Q3kD
 - TensorFlow GPU 1.14
 - Keras 2.3.1
 
-### Create virtual env (conda)
+# Quick Start
+[Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/) are needed here.
+If you don't have them, install them or go to [Manual Setup](#Manual-Setup).
+
+After you clone this repository,
+```bash
+# initialize the submodule
+git submodule update --init --recursive
+# run backend and frontend application
+docker-compose up -d
+```
+
+And you can see this application on `http://<YOUR IP ADDRESS>:80`
+
+# Manual Setup
+
+## Initialize the submodule
+git submodule update --init --recursive
+
+## Create virtual env (conda)
 
 ```bash
 conda create -n gaming_hoge python=3.7
@@ -20,45 +37,45 @@ conda install -c anaconda tensorflow-gpu=1.14 flask flask-cors pillow scikit-ima
 conda install -c conda-forge pycocotools imgaug keras=2.3.1
 pip install opencv-contrib-python
 ```
-
-## Installation
-
-### For MRCNN model
+## Run backend application
 
 ```bash
-cd Mask_RCNN
+# Mask_RCNN setup
+cd backend/Mask_RCNN
 python3 setup.py install
-# download weights
+# Download weights
 wget https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5
+
+# Run a backend application in the background (Port 5000 is used)
+cd ../
+nohup python3 app.py &
 ```
 
-### For web client
-Set your ip in `nginx/conf.d/default.conf`.
+## Run web client
+Set your ip in `frontend/nginx/conf.d/default.conf`.
 
 ```
 location ~ /server {
-    proxy_pass http://<YOUR IP ADDRESS>:5000;
-    client_max_body_size 10M;
+        proxy_pass http://<YOUR IP ADDRESS>:5000;
+        proxy_read_timeout 10m;
+        proxy_connect_timeout 10m;
+        client_max_body_size 10M;
 }
 ```
 
-Then,
+Then, start nginx server. (Docker is used here, but you can run web client in your nginx server).
 
 ```bash
-# To install client submodule
-git submodule update --init --recursive
+cd frontend
 
 # build nginx docker image
-sudo docker build -f nginx/Dockerfile -t server .
+sudo docker build -f nginx/Dockerfile -t frontend .
 
-# run nginx container
-sudo docker run -d --name server -p 80:80 server
+# run a container
+sudo docker run -d --name frontend -p 80:80 frontend
 ```
 
-## Run applicataion
-```
-nohup python3 app.py &
-```
+And you can see this application on `http://<YOUR IP ADDRESS>:80`
 
 Note:
 Images you share to Imgur are publicly visible to everyone. Please be careful.
