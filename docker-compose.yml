@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+    api:
+        build:
+            context: ./backend/
+            dockerfile: ./Dockerfile
+        image: backend
+    web:
+        build:
+            context: ./frontend/
+            dockerfile: ./nginx/Dockerfile
+        image: frontend
+        ports:
+            - "80:80"
