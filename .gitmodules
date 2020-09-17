@@ -1,6 +1,6 @@
-[submodule "Mask_RCNN"]
-	path = Mask_RCNN
-	url = https://github.com/matterport/Mask_RCNN.git
-[submodule "client"]
-	path = client
+[submodule "frontend/client"]
+	path = frontend/client
 	url = https://github.com/Matts966/gaming-next.git
+[submodule "backend/Mask_RCNN"]
+	path = backend/Mask_RCNN
+	url = https://github.com/matterport/Mask_RCNN.git
