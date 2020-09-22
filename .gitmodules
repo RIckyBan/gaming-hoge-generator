@@ -4,3 +4,6 @@
 [submodule "backend/Mask_RCNN"]
 	path = backend/Mask_RCNN
 	url = https://github.com/matterport/Mask_RCNN.git
+[submodule "dns-register"]
+	path = dns-register
+	url = https://github.com/Matts966/dns-register
