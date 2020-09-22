@@ -3,7 +3,7 @@ resource "google_compute_instance" "gaming-hoge-controller" {
   machine_type = "n1-standard-4"
   zone         = "us-west1-a"
   description  = "gaming-hoge-controller"
-  tags         = ["gaming-hoge", "controller"]
+  tags         = ["gaming-hoge", "public-controller"]
   can_ip_forward = true
   
   boot_disk {
@@ -23,10 +23,6 @@ resource "google_compute_instance" "gaming-hoge-controller" {
     }
   }
 
-  service_account {
-    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
-  }
-
   metadata_startup_script = <<-EOT
     sudo apt update
     sudo apt upgrade -y
@@ -35,10 +31,12 @@ resource "google_compute_instance" "gaming-hoge-controller" {
     sudo usermod -aG docker $USER
     sudo systemctl enable docker
     sudo systemctl start docker
+    sudo apt install -y apt-transport-https curl
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-    sudo apt update
-    sudo apt install kubeadm -y
+    sudo apt-get update
+    sudo apt-get install -y kubelet kubeadm kubectl
+    sudo apt-mark hold kubelet kubeadm kubectl
   EOT
 }
 
@@ -47,7 +45,7 @@ resource "google_compute_instance" "gaming-hoge-worker-0" {
   machine_type = "n1-standard-2"
   zone         = "us-west1-b"
   description  = "gaming-hoge-controller"
-  tags         = ["gaming-hoge", "worker"]
+  tags         = ["gaming-hoge", "public-worker"]
   can_ip_forward = true
   
   boot_disk {
@@ -67,10 +65,6 @@ resource "google_compute_instance" "gaming-hoge-worker-0" {
     }
   }
 
-  service_account {
-    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
-  }
-
   metadata_startup_script = <<-EOT
     sudo apt update
     sudo apt upgrade -y
@@ -79,10 +73,12 @@ resource "google_compute_instance" "gaming-hoge-worker-0" {
     sudo usermod -aG docker $USER
     sudo systemctl enable docker
     sudo systemctl start docker
+    sudo apt install -y apt-transport-https curl
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-    sudo apt update
-    sudo apt install kubeadm -y
+    sudo apt-get update
+    sudo apt-get install -y kubelet kubeadm kubectl
+    sudo apt-mark hold kubelet kubeadm kubectl
   EOT
 }
 
@@ -91,7 +87,7 @@ resource "google_compute_instance" "gaming-hoge-worker-1" {
   machine_type = "n1-standard-2"
   zone         = "us-west1-c"
   description  = "gaming-hoge-controller"
-  tags         = ["gaming-hoge", "worker"]
+  tags         = ["gaming-hoge", "public-worker"]
   can_ip_forward = true
   
   boot_disk {
@@ -111,10 +107,6 @@ resource "google_compute_instance" "gaming-hoge-worker-1" {
     }
   }
 
-  service_account {
-    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
-  }
-
   metadata_startup_script = <<-EOT
     sudo apt update
     sudo apt upgrade -y
@@ -123,9 +115,11 @@ resource "google_compute_instance" "gaming-hoge-worker-1" {
     sudo usermod -aG docker $USER
     sudo systemctl enable docker
     sudo systemctl start docker
+    sudo apt install -y apt-transport-https curl
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-    sudo apt update
-    sudo apt install kubeadm -y
+    sudo apt-get update
+    sudo apt-get install -y kubelet kubeadm kubectl
+    sudo apt-mark hold kubelet kubeadm kubectl
   EOT
 }
