@@ -23,10 +23,23 @@ docker-compose up -d
 
 And you can see this application on `http://<YOUR IP ADDRESS>:80`
 
+# Run Application on kubernetes
+You can deploy application on your kubernetes with next command.
+
+## Requirement
+- kubectl
+
+## command
+```bash
+sudo curl -sf https://raw.githubusercontent.com/RIckyBan/gaming-hoge-generator/master/scripts/k8s-deploy.sh | sh -s
+```
+
 # Manual Setup
 
 ## Initialize the submodule
+```bash
 git submodule update --init --recursive
+```
 
 ## Create virtual env (conda)
 
