@@ -115,7 +115,7 @@ def segmentation():
     N = r['rois'].shape[0]
 
     if N == 0:
-        return jsonify({"status":"obejct missing"}), 422
+        return jsonify({"status":"object missing"}), 422
 
     for i in range(N):
         mask = r['masks'][:, :, i]
