@@ -5,7 +5,7 @@ tf.keras.backend.set_session(tf.Session(config=cfg))
 
 import colorsys
 import cv2
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, jsonify
 from flask_cors import *
 import numpy as np
 from PIL import Image
@@ -28,9 +28,9 @@ CORS(app)
 ROOT_DIR = os.path.abspath("./Mask_RCNN/")
 sys.path.append(ROOT_DIR)
 
-from Mask_RCNN.mrcnn import utils
-import Mask_RCNN.mrcnn.model as modellib
-from Mask_RCNN.mrcnn import visualize
+from mrcnn import utils
+import mrcnn.model as modellib
+from mrcnn import visualize
 
 # Import COCO config
 sys.path.append(
@@ -113,6 +113,9 @@ def segmentation():
     
     r = results[0]
     N = r['rois'].shape[0]
+
+    if N == 0:
+        return jsonify({"status":"obejct missing"}), 422
 
     for i in range(N):
         mask = r['masks'][:, :, i]
