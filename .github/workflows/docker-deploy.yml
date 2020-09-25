@@ -27,7 +27,7 @@ jobs:
       # push frontend docker image
       - uses: mr-smithers-excellent/docker-build-push@v4
         with:
-          image: RIckyBan/gaming-hoge-generator/frontend
+          image: rickyban/gaming-hoge-generator/frontend
           tag: latest
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -38,7 +38,7 @@ jobs:
       # push backend docker image
       - uses: mr-smithers-excellent/docker-build-push@v4
         with:
-          image: RIckyBan/gaming-hoge-generator/backend
+          image: rickyban/gaming-hoge-generator/backend
           tag: latest
           registry: ghcr.io
           username: ${{ github.repository_owner }}
