@@ -1,6 +1,6 @@
 # Infrastructure as Code by terraform
 
-## Setup a instance with kubeadm
+## Setup a instance adn install kubeadm
 
 1. install terraform
 2. `terraform init`
