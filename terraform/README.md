@@ -22,6 +22,8 @@ kubectl taint nodes $(hostname) node-role.kubernetes.io/master:NoSchedule-
 
 ### Workder Node Setup
 
+Use command emmitted by the commands on controller node above like
+
 ```bash
 sudo kubeadm join 10.240.0.11:6443 --token vazvte.cpc8jurckkoczt67 \
     --discovery-token-ca-cert-hash sha256:9f166b4aaa483b11be7fa96f7c009611396ca4162596aadfba61352e444da1c0
