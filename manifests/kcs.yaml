@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-cloudflare-syncer
+  labels:
+    app: kubernetes-cloudflare-syncer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubernetes-cloudflare-syncer
+  template:
+    metadata:
+      labels:
+        app: kubernetes-cloudflare-syncer
+    spec:
+      serviceAccountName: kubernetes-cloudflare-syncer
+      containers:
+      - name: kubernetes-cloudflare-syncer
+        image: ghcr.io/matts966/kubernetes-cloudflare-syncer/gcloud:latest
+        args:
+        - --dns-name=project-gamingify.pw
+        - --project=gaming-hoge-generator
+        - --filter="status = RUNNING"
+        - --cloudflare-proxy=true
+        env:
+        - name: CF_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cloudflare
+              key: api-key
+        - name: CF_API_EMAIL
