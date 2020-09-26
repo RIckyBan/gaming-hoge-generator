@@ -30,3 +30,16 @@ spec:
               name: cloudflare
               key: api-key
         - name: CF_API_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: cloudflare
+              key: email
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/gcp_credentials.json
+        volumeMounts:
+          - name: iplister-gcp-cred
+            mountPath: /var/secrets/google
+      volumes:
+      - name: iplister-gcp-cred
+        secret:
+          secretName: iplister-gcp-cred
